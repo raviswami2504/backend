@@ -4,7 +4,6 @@ import { User } from "../models/user.model.js"
 import { uploadOnCloudinary } from "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
-import { useReducer } from "react";
 
 
 const generateAccessAndRefreshTokens = async (userId) => {
@@ -206,7 +205,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 const refreshAccessToken = asyncHandler(async (req, res) => {
     const incomingRefeshToken = req.cookies.refreshToken || req.body.refreshToken
 
-    if (incomingRefeshToken) {
+    if (!incomingRefeshToken) {
         throw new ApiError(401, "unauthorized request")
     }
 
@@ -252,6 +251,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 })
 
 export {
+
     registerUser,
     loginUser,
     logoutUser,
